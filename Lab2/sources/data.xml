@@ -1,0 +1,23 @@
+<experiments>
+    <experiment name="Radix">
+        <node
+                name = "Arithmetic Progression"
+                minElement = "a"
+                maxElement = "z"
+                startLength = "1000"
+                diff = "100"
+                maxLength = "3000"
+                repeat = "15">
+        </node>
+        <node
+                name = "Geometric Progression"
+                minElement = "a"
+                maxElement = "z"
+                startLength = "10"
+                diff = "1.5"
+                maxLength = "10000"
+                repeat = "15">
+        </node>
+    </experiment>
+</experiments>
+
