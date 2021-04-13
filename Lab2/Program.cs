@@ -27,18 +27,24 @@ namespace Lab2
         public static void Main(string[] args)
         {
             var xml = new XmlDocument();
+            Console.WriteLine($"Attempt to read file {PathToData}");
             xml.Load(PathToData);
+            Console.WriteLine($"Parse file");
             var nodes = GetExperimentNodes(GetXmlNodesFromExperiment(xml, SortName));
+            Console.WriteLine($"{SortName} experiment has {nodes.Count} nodes");
             
-            ExecuteNode(nodes[ArithmeticProgression], new FileStore(ResultPath, ArithmeticProgression));
+            if (nodes.ContainsKey(ArithmeticProgression))
+                ExecuteNode(nodes[ArithmeticProgression], new FileStore(ResultPath, ArithmeticProgression));
             
-            ExecuteNode(nodes[GeometricProgression], new FileStore(ResultPath, GeometricProgression));
+            if (nodes.ContainsKey(GeometricProgression))
+                ExecuteNode(nodes[GeometricProgression], new FileStore(ResultPath, GeometricProgression));
             
             Console.WriteLine($"Results has been write to {ResultPath}");
         }
 
         private static void ExecuteNode(ExperimentNode experiment, IStore store)
         {
+            Console.WriteLine($"{experiment.Name} node is started");
             var alphabet = CreateAlphabet(experiment.MinElement, experiment.MaxElement);
             var random = new Random();
             var currentLength = experiment.StartLength;

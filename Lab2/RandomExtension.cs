@@ -43,10 +43,5 @@ namespace Lab2
                 builder.Append(alphabet[random.Next(alphabet.Length)]);
             return builder.ToString();
         }
-
-        public static uint Next(this Random random, uint max)
-        {
-            return (uint)random.Next(int.MinValue, int.MaxValue) % max;
-        }
     }
 }

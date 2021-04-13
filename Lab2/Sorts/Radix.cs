@@ -20,21 +20,12 @@ namespace Lab2.Sorts
         
         public static void Sort(FakeArray<string> texts)
         {
-            var min = char.MaxValue;
-            var max = char.MinValue;
+            if (texts.Length == 0)
+                return;
 
-            foreach (var text in texts)
-            {
-                foreach (var item in text)
-                {
-                    if (item < min)
-                        min = item;
-                    if (item > max)
-                        max = item;
-                }
-            }
+            FindMinAndMax(texts, out var min, out var max);
             
-            var table = new Queue<string>[max - min + 1];
+            var table = new Queue<string>[max - min + 2];
             for (var i = 0; i < table.Length; i++)
                 table[i] = new Queue<string>();
             
@@ -49,17 +40,18 @@ namespace Lab2.Sorts
                 {
                     next |= task.Pass + 1 < texts[j].Length;
                     var current = texts[j];
-                    var target = task.Pass < current.Length ? current[task.Pass] : current[^1];
-                    table[target - min].Enqueue(current);
+                    var target = task.Pass < current.Length ? current[task.Pass] : min - 1;
+                    table[target - min + 1].Enqueue(current);
                 }
             
                 var textIndex = task.Start;
-                foreach (var tableStrip in table)
+                for (var i = 0; i < table.Length; i++)
                 {
+                    var tableStrip = table[i];
                     var length = tableStrip.Count;
                     while (tableStrip.Count != 0)
                         texts[textIndex++] = tableStrip.Dequeue();
-                    if (next && length != 0)
+                    if (next && length != 0 && i != 0)
                     {
                         tasks.Enqueue(new SortRule(task.Start, task.Start + length, task.Pass + 1));
                         task.Start += length;
@@ -68,31 +60,19 @@ namespace Lab2.Sorts
             }
         }
 
-        private static void SortRange(FakeArray<string> texts, int pass, char min, int max, int start, int end)
+        private static void FindMinAndMax(FakeArray<string> texts, out char min, out char max)
         {
-            var table = new Queue<string>[max - min + 1];
-            for (var i = 0; i < table.Length; i++)
-                table[i] = new Queue<string>();
-            
-            var next = false;
-            for (var j = start; j < end; j++)
+            min = char.MaxValue;
+            max = char.MinValue;
+
+            foreach (var text in texts)
             {
-                next |= pass + 1 < texts[j].Length;
-                var current = texts[j];
-                var target = pass < current.Length ? current[pass] : current[^1];
-                table[target - min].Enqueue(current);
-            }
-            
-            var textIndex = start;
-            foreach (var tableStrip in table)
-            {
-                var length = tableStrip.Count;
-                while (tableStrip.Count != 0)
-                    texts[textIndex++] = tableStrip.Dequeue();
-                if (next && length != 0)
+                foreach (var item in text)
                 {
-                    SortRange(texts, pass + 1, min, max, start, start + length);
-                    start += length;
+                    if (item < min)
+                        min = item;
+                    if (item > max)
+                        max = item;
                 }
             }
         }

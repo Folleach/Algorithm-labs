@@ -10,7 +10,7 @@ namespace Lab2
         private IterationCounter dummyCounter = new IterationCounter();
         
         [Test]
-        public void Radix_Sort_LargestCharShouldBeSort()
+        public void Radix_Sort_FirstCharShouldBeSort()
         {
             var input = new[] {"baa", "aaa"};
             var expected = new[] {"aaa", "baa"};
@@ -43,10 +43,32 @@ namespace Lab2
         }
         
         [Test]
+        public void Radix_Sort_WithDifferentLengthIfIndexRangeIsMissedPutToTheFirst()
+        {
+            var input = new []{"aba", "abc", "abb", "ab"};
+            var expected = new[] {"ab", "aba", "abb", "abc"};
+            
+            Radix.Sort(new FakeArray<string>(input, dummyCounter));
+            
+            Assert(input, expected);
+        }
+        
+        [Test]
         public void Radix_Sort_Permutations()
         {
             var input = new []{"abb", "aba", "aab", "aaa"};
             var expected = new[] {"aaa", "aab", "aba", "abb"};
+            
+            Radix.Sort(new FakeArray<string>(input, dummyCounter));
+            
+            Assert(input, expected);
+        }
+        
+        [Test]
+        public void Radix_Sort_EmptyInput()
+        {
+            var input = new string[0];
+            var expected = new string[0];
             
             Radix.Sort(new FakeArray<string>(input, dummyCounter));
             
