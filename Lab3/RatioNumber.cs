@@ -3,12 +3,12 @@ using System.Numerics;
 
 namespace Lab3
 {
-    public class RationNumber
+    public class RatioNumber
     {
         private readonly BigInteger firstComponent;
         private readonly BigInteger secondComponent;
 
-        public RationNumber(BigInteger firstComponent, BigInteger secondComponent)
+        public RatioNumber(BigInteger firstComponent, BigInteger secondComponent)
         {
             this.firstComponent = firstComponent;
             this.secondComponent = secondComponent;
@@ -23,11 +23,17 @@ namespace Lab3
             return a;
         }
 
+        public RatioNumber Simplify()
+        {
+            var gcd = GreatestCommonDivisor();
+            return new RatioNumber(firstComponent / gcd, secondComponent / gcd);
+        }
+
         public override bool Equals(object other)
         {
             if (ReferenceEquals(this, other))
                 return true;
-            if (other is RationNumber number)
+            if (other is RatioNumber number)
                 return Equals(number);
             return false;
         }
@@ -45,53 +51,53 @@ namespace Lab3
             return $"{firstComponent}/{secondComponent}";
         }
 
-        private bool Equals(RationNumber other)
+        private bool Equals(RatioNumber other)
         {
             return firstComponent == other.firstComponent
                    && secondComponent == other.secondComponent;
         }
 
-        public static RationNumber operator +(RationNumber first, RationNumber second)
+        public static RatioNumber operator +(RatioNumber first, RatioNumber second)
         {
             throw new NotImplementedException();
         }
         
-        public static RationNumber operator -(RationNumber first, RationNumber second)
+        public static RatioNumber operator -(RatioNumber first, RatioNumber second)
         {
             throw new NotImplementedException();
         }
         
-        public static RationNumber operator *(RationNumber first, RationNumber second)
+        public static RatioNumber operator *(RatioNumber first, RatioNumber second)
         {
             throw new NotImplementedException();
         }
         
-        public static RationNumber operator /(RationNumber first, RationNumber second)
+        public static RatioNumber operator /(RatioNumber first, RatioNumber second)
         {
             throw new NotImplementedException();
         }
         
-        public static bool operator ==(RationNumber first, RationNumber second)
+        public static bool operator ==(RatioNumber first, RatioNumber second)
         {
             return !(first is null) && first.Equals(second);
         }
 
-        public static bool operator !=(RationNumber first, RationNumber second)
+        public static bool operator !=(RatioNumber first, RatioNumber second)
         {
             return !(first == second);
         }
 
-        public static implicit operator RationNumber(ValueTuple<int, int> number)
+        public static implicit operator RatioNumber(ValueTuple<int, int> number)
         {
-            return new RationNumber(number.Item1, number.Item2);
+            return new RatioNumber(number.Item1, number.Item2);
         }
 
-        public static string ToPeriodicFraction(RationNumber number)
+        public static string ToPeriodicFraction(RatioNumber number)
         {
             throw new NotImplementedException();
         }
 
-        public static RationNumber ToRatio(string number)
+        public static RatioNumber ToRatio(string number)
         {
             throw new NotImplementedException();
         }
