@@ -58,12 +58,16 @@ namespace Lab3
             new RatioNumber[] { (-10, 1), (-10, 1), (-20, 1) },
             new RatioNumber[] { (1, 2), (1, 3), (5, 6) },
             new RatioNumber[] { (100, 2), (50, 1), (100, 1) },
+            new RatioNumber[] { (3, 4), (-3, 4), (0, 1) },
         };
         
         public static object[] SubSource =
         {
             new RatioNumber[] { (3, 1), (2, 1), (1, 1) },
-            new RatioNumber[] { (1, 1), (1, 2), (1, 2) }
+            new RatioNumber[] { (1, 1), (1, 2), (1, 2) },
+            new RatioNumber[] { (-2, 3), (99, 4), (-305, 12) },
+            new RatioNumber[] { (0, 1), (0, 1), (0, 1) },
+            new RatioNumber[] { (3, 4), (3, 4), (0, 1) },
         };
         
         public static object[] MultipleSource =

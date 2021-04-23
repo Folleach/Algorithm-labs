@@ -20,7 +20,7 @@ namespace Lab3
             var b = secondComponent;
             while (b != 0)
                 b = a % (a = b);
-            return a;
+            return a < 0 ? -a : a;
         }
 
         public RatioNumber Simplify()
@@ -64,12 +64,17 @@ namespace Lab3
             var firstComponentResult = first.firstComponent * second.secondComponent +
                                        second.firstComponent * first.secondComponent;
             var secondComponentResult = first.secondComponent * second.secondComponent;
-            return new RatioNumber(firstComponentResult, secondComponentResult);
+            return new RatioNumber(firstComponentResult, secondComponentResult).Simplify();
         }
         
         public static RatioNumber operator -(RatioNumber first, RatioNumber second)
         {
-            throw new NotImplementedException();
+            first = first.Simplify();
+            second = second.Simplify();
+            var firstComponentResult = first.firstComponent * second.secondComponent -
+                                       second.firstComponent * first.secondComponent;
+            var secondComponentResult = first.secondComponent * second.secondComponent;
+            return new RatioNumber(firstComponentResult, secondComponentResult).Simplify();
         }
         
         public static RatioNumber operator *(RatioNumber first, RatioNumber second)
