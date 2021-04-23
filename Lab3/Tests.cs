@@ -34,6 +34,13 @@ namespace Lab3
             Assert.AreEqual(expected, first - second);
         }
 
+        [Test]
+        [TestCaseSource(nameof(GcdSource))]
+        public void GreatestCommonDivisor(RationNumber number, int divisor)
+        {
+            Assert.AreEqual((BigInteger)divisor, number.GreatestCommonDivisor());
+        }
+
         public static object[] AddSource =
         {
             new RationNumber[] { (1, 1), (2, 1), (3, 1) },
@@ -42,20 +49,30 @@ namespace Lab3
         
         public static object[] SubSource =
         {
-            new [] { (3, 1), (2, 1), (1, 1) },
-            new [] { (1, 1), (1, 2), (1, 2) }
+            new RationNumber[] { (3, 1), (2, 1), (1, 1) },
+            new RationNumber[] { (1, 1), (1, 2), (1, 2) }
         };
         
         public static object[] MultipleSource =
         {
-            new [] { (3, 1), (3, 1), (9, 1) },
-            new [] { (1, 1), (1, 2), (1, 2) }
+            new RationNumber[] { (3, 1), (3, 1), (9, 1) },
+            new RationNumber[] { (1, 1), (1, 2), (1, 2) }
         };
         
         public static object[] DivSource =
         {
-            new [] { (1, 1), (1, 2), (2, 1) },
-            new [] { (12, 1), (3, 1), (4, 1) }
+            new RationNumber[] { (1, 1), (1, 2), (2, 1) },
+            new RationNumber[] { (12, 1), (3, 1), (4, 1) }
+        };
+        
+        public static object[] GcdSource =
+        {
+            new object[] { new RationNumber(9, 12), 3 },
+            new object[] { new RationNumber(1, 1), 1 },
+            new object[] { new RationNumber(-9, 12), 3 },
+            new object[] { new RationNumber(971, 977), 1 },
+            new object[] { new RationNumber(41, 82), 41 },
+            new object[] { new RationNumber(0, 0), 0 },
         };
     }
 }

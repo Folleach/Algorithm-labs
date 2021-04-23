@@ -16,7 +16,11 @@ namespace Lab3
 
         public BigInteger GreatestCommonDivisor()
         {
-            throw new NotImplementedException();
+            var a = firstComponent;
+            var b = secondComponent;
+            while (b != 0)
+                b = a % (a = b);
+            return a;
         }
 
         public override bool Equals(object other)
