@@ -59,7 +59,12 @@ namespace Lab3
 
         public static RatioNumber operator +(RatioNumber first, RatioNumber second)
         {
-            throw new NotImplementedException();
+            first = first.Simplify();
+            second = second.Simplify();
+            var firstComponentResult = first.firstComponent * second.secondComponent +
+                                       second.firstComponent * first.secondComponent;
+            var secondComponentResult = first.secondComponent * second.secondComponent;
+            return new RatioNumber(firstComponentResult, secondComponentResult);
         }
         
         public static RatioNumber operator -(RatioNumber first, RatioNumber second)

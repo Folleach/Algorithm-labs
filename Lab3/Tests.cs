@@ -51,7 +51,13 @@ namespace Lab3
         public static object[] AddSource =
         {
             new RatioNumber[] { (1, 1), (2, 1), (3, 1) },
-            new RatioNumber[] { (1, 1), (1, 2), (3, 2) }
+            new RatioNumber[] { (1, 1), (1, 2), (3, 2) },
+            new RatioNumber[] { (0, 1), (0, 1), (0, 1) },
+            new RatioNumber[] { (0, 2), (0, 2), (0, 1) },
+            new RatioNumber[] { (-2, 1), (3, 1), (1, 1) },
+            new RatioNumber[] { (-10, 1), (-10, 1), (-20, 1) },
+            new RatioNumber[] { (1, 2), (1, 3), (5, 6) },
+            new RatioNumber[] { (100, 2), (50, 1), (100, 1) },
         };
         
         public static object[] SubSource =
