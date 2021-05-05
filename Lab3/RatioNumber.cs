@@ -79,7 +79,7 @@ namespace Lab3
         
         public static RatioNumber operator *(RatioNumber first, RatioNumber second)
         {
-            throw new NotImplementedException();
+            return new RatioNumber(first.firstComponent * second.firstComponent, first.secondComponent * second.secondComponent).Simplify();
         }
         
         public static RatioNumber operator /(RatioNumber first, RatioNumber second)

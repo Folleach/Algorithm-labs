@@ -24,14 +24,14 @@ namespace Lab3
         [TestCaseSource(nameof(MultipleSource))]
         public void Multiple(RatioNumber first, RatioNumber second, RatioNumber expected)
         {
-            Assert.AreEqual(expected, first - second);
+            Assert.AreEqual(expected, first * second);
         }
         
         [Test]
         [TestCaseSource(nameof(DivSource))]
         public void Div(RatioNumber first, RatioNumber second, RatioNumber expected)
         {
-            Assert.AreEqual(expected, first - second);
+            Assert.AreEqual(expected, first / second);
         }
 
         [Test]
