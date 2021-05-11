@@ -91,7 +91,9 @@ namespace Lab3
         
         public static bool operator ==(RatioNumber first, RatioNumber second)
         {
-            return !(first is null) && first.Equals(second);
+            if (first is null && second is null)
+                return true;
+            return !(first is null) && first.Equals((object)second);
         }
 
         public static bool operator !=(RatioNumber first, RatioNumber second)
