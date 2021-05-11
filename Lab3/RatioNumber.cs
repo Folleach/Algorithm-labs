@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
+using System.Text;
 
 namespace Lab3
 {
@@ -104,12 +106,114 @@ namespace Lab3
 
         public static string ToPeriodicFraction(RatioNumber number)
         {
-            throw new NotImplementedException();
+            var fraction = GetFraction(number, 40);
+            var result = $"{number.firstComponent / number.secondComponent}";
+                if (fraction.Length > 0)
+                result += $",{fraction}";
+            return result;
+        }
+
+        private static string GetFraction(RatioNumber number, int fractionLength)
+        {
+            var queue = new List<int>();
+            var dindex = new List<int>[10];
+            for (var i = 0; i < dindex.Length; i++)
+                dindex[i] = new List<int>();
+            var result = new StringBuilder();
+            var m = number.firstComponent % number.secondComponent;
+            var n = number.secondComponent;
+            var periodStartAt = 0;
+
+            bool periodAt(int value, int index)
+            {
+                foreach (var currentIndex in dindex[value])
+                {
+                    if (currentIndex == index)
+                        continue;
+
+                    var first = currentIndex;
+                    var second = index;
+                    var needContinue = false;
+                    var length = number.secondComponent.ToString().Length - 1;
+                    for (var i = 0; i < length && first >= 0; i++)
+                    {
+                        if (queue[first] != queue[second])
+                        {
+                            needContinue = true;
+                            break;
+                        }
+
+                        first--;
+                        second--;
+                    }
+                    if (needContinue)
+                        continue;
+
+                    periodStartAt = currentIndex;
+                    return true;
+                }
+
+                return false;
+            }
+            
+            for (var i = 0; i < fractionLength; i++)
+            {
+                if (m == 0)
+                    break;
+                m *= 10;
+                var t = (int)(m / n);
+                queue.Add(t);
+                dindex[t].Add(i);
+                if (periodAt(t, i))
+                {
+                    for (var j = 0; j < queue.Count - 1; j++)
+                    {
+                        if (j == periodStartAt)
+                            result.Append('(');
+                        result.Append(queue[j]);
+                    }
+
+                    result.Append(')');                        
+                    return result.ToString();
+                }
+                m %= n;
+            }
+            
+            foreach (var item in queue)
+                result.Append(item);
+            return result.ToString();
         }
 
         public static RatioNumber ToRatio(string number)
         {
-            throw new NotImplementedException();
+            var numberArray = number.Split(',');
+            var fraction = "0";
+            if (numberArray.Length > 1)
+                fraction = numberArray[1];
+
+            var power = fraction.Length;
+
+            var whole = BigInteger.Parse(numberArray[0]) * 10;
+            var denominator = new BigInteger(10);
+            for (var i = 1; i < power; i++)
+            {
+                denominator *= 10;
+                whole *= 10;
+            }
+
+            var numerator = BigInteger.Parse(fraction);
+            numerator += whole;
+
+            for (var i = 2; i < denominator / 2; i++)
+            {
+                if (numerator % i != 0 || denominator % i != 0)
+                    continue;
+                numerator /= i;
+                denominator /= i;
+                i = 1;
+            }
+
+            return new RatioNumber(numerator, denominator).Simplify();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 namespace Lab3
 {
@@ -6,7 +7,7 @@ namespace Lab3
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(0.3f + 0.3f + 0.3f);
         }
     }
 }

@@ -48,6 +48,38 @@ namespace Lab3
             Assert.AreEqual(expected, number.Simplify());
         }
 
+        [TestCase(2, 1, "2")]
+        [TestCase(11, 10, "1,1")]
+        [TestCase(1, 3, "0,(3)")]
+        [TestCase(5, 11, "0,(45)")]
+        [TestCase(1, 11, "0,(09)")]
+        [TestCase(125, 7, "17,(857142)")]
+        [TestCase(19, 60, "0,31(6)")]
+        [TestCase(22, 7, "3,(142857)")]
+        [TestCase(31111136, 99999999, "0,(31111136)")]
+        [TestCase(123456, 999999, "0,(123456)")]
+        public void ToPeriodicFraction(int first, int second, string expected)
+        {
+            var input = new RatioNumber(first, second);
+
+            var result = RatioNumber.ToPeriodicFraction(input);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestCase("0,5", 1, 2)]
+        [TestCase("0", 0, 1)]
+        [TestCase("1", 1, 1)]
+        [TestCase("28856,4", 144282, 5)]
+        public void ToRatio(string number, int a, int b)
+        {
+            var expected = new RatioNumber(a, b);
+            
+            var result = RatioNumber.ToRatio(number);
+            
+            Assert.AreEqual(expected, result);
+        }
+
         public static object[] AddSource =
         {
             new RatioNumber[] { (1, 1), (2, 1), (3, 1) },
