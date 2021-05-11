@@ -58,6 +58,7 @@ namespace Lab3
         [TestCase(22, 7, "3,(142857)")]
         [TestCase(31111136, 99999999, "0,(31111136)")]
         [TestCase(123456, 999999, "0,(123456)")]
+        [TestCase(31, 64, "0,483475")]
         public void ToPeriodicFraction(int first, int second, string expected)
         {
             var input = new RatioNumber(first, second);
