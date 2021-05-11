@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Lab3
 {
@@ -18,14 +19,16 @@ namespace Lab3
 
         public static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+            
             foreach (var item in MakeIntro())
                 Console.WriteLine(item);
             
             while (true)
-            {Handle();
+            {
                 try
                 {
-                    
+                    Handle();
                 }
                 catch (Exception exception)
                 {
@@ -72,8 +75,8 @@ namespace Lab3
 
         private static void ShowCurrent()
         {
-            Console.WriteLine(current);
-            Console.WriteLine(RatioNumber.ToPeriodicFraction(current));
+            Console.WriteLine($"\t{current}");
+            Console.WriteLine($"\t{RatioNumber.ToPeriodicFraction(current)}");
             Console.WriteLine();
         }
 
