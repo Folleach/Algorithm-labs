@@ -108,7 +108,7 @@ namespace Lab3
 
         public static string ToPeriodicFraction(RatioNumber number)
         {
-            var fraction = GetFraction(number, 40);
+            var fraction = GetFraction(number, 100);
             var result = $"{number.firstComponent / number.secondComponent}";
                 if (fraction.Length > 0)
                 result += $",{fraction}";
@@ -118,66 +118,31 @@ namespace Lab3
         private static string GetFraction(RatioNumber number, int fractionLength)
         {
             var queue = new List<int>();
-            var dindex = new List<int>[10];
-            for (var i = 0; i < dindex.Length; i++)
-                dindex[i] = new List<int>();
             var result = new StringBuilder();
+            var dnext = new Dictionary<BigInteger, int>();
             var m = number.firstComponent % number.secondComponent;
             var n = number.secondComponent;
-            var periodStartAt = 0;
 
-            bool periodAt(int value, int index)
-            {
-                foreach (var currentIndex in dindex[value])
-                {
-                    if (currentIndex == index)
-                        continue;
-
-                    var first = currentIndex;
-                    var second = index;
-                    var needContinue = false;
-                    var length = number.secondComponent.ToString().Length - 1;
-                    for (var i = 0; i < length && first >= 0; i++)
-                    {
-                        if (queue[first] != queue[second])
-                        {
-                            needContinue = true;
-                            break;
-                        }
-
-                        first--;
-                        second--;
-                    }
-                    if (needContinue)
-                        continue;
-
-                    periodStartAt = currentIndex;
-                    return true;
-                }
-
-                return false;
-            }
-            
             for (var i = 0; i < fractionLength; i++)
             {
                 if (m == 0)
                     break;
                 m *= 10;
-                var t = (int)(m / n);
-                queue.Add(t);
-                dindex[t].Add(i);
-                if (periodAt(t, i))
+                if (dnext.ContainsKey(m))
                 {
-                    for (var j = 0; j < queue.Count - 1; j++)
+                    var periodStartAt = dnext[m];
+                    for (var j = 0; j < queue.Count; j++)
                     {
                         if (j == periodStartAt)
                             result.Append('(');
                         result.Append(queue[j]);
                     }
 
-                    result.Append(')');                        
+                    result.Append(')');
                     return result.ToString();
                 }
+                queue.Add((int)(m / n));
+                dnext.Add(m, i);
                 m %= n;
             }
             
