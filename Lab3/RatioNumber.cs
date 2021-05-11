@@ -110,7 +110,7 @@ namespace Lab3
         {
             var fraction = GetFraction(number, 100);
             var result = $"{number.firstComponent / number.secondComponent}";
-                if (fraction.Length > 0)
+            if (fraction.Length > 0)
                 result += $",{fraction}";
             return result;
         }
@@ -154,33 +154,23 @@ namespace Lab3
         public static RatioNumber ToRatio(string number)
         {
             var numberArray = number.Split(',');
+            var integer = numberArray[0];
             var fraction = "0";
             if (numberArray.Length > 1)
                 fraction = numberArray[1];
 
-            var power = fraction.Length;
+            var m = fraction == "0" ? 0 : fraction.Length;
+            
+            var x = BigInteger.Parse(integer) * MultipleByTen(1, m) + BigInteger.Parse(fraction);
+            return new RatioNumber(x, MultipleByTen(1, m)).Simplify();
+        }
 
-            var whole = BigInteger.Parse(numberArray[0]) * 10;
-            var denominator = new BigInteger(10);
-            for (var i = 1; i < power; i++)
-            {
-                denominator *= 10;
-                whole *= 10;
-            }
-
-            var numerator = BigInteger.Parse(fraction);
-            numerator += whole;
-
-            for (var i = 2; i < denominator / 2; i++)
-            {
-                if (numerator % i != 0 || denominator % i != 0)
-                    continue;
-                numerator /= i;
-                denominator /= i;
-                i = 1;
-            }
-
-            return new RatioNumber(numerator, denominator).Simplify();
+        private static BigInteger MultipleByTen(BigInteger value, int times)
+        {
+            var result = value;
+            for (var i = 0; i < times; i++)
+                result *= 10;
+            return result;
         }
     }
 }
