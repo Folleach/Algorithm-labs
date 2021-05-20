@@ -28,5 +28,14 @@ namespace Lab4
             var actual = expression.Calc();
             Assert.AreEqual(expected, actual);
         }
+        
+        [TestCase("x + 1", 3, 4)]
+        [TestCase("x * x", 4, 16)]
+        public void WithVariables(string input, double xValue, double expected)
+        {
+            var expression = new PolishNotation(input);
+            var actual = expression.Calc(("x", xValue));
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

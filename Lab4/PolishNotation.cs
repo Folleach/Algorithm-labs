@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Lab4.Expressions;
 
@@ -7,6 +8,8 @@ namespace Lab4
     public class PolishNotation
     {
         private IExpression expression;
+        private Dictionary<string, double> variables = new Dictionary<string, double>();
+        private const int BracketPriority = 100;
         
         public PolishNotation(string expression)
         {
@@ -16,6 +19,17 @@ namespace Lab4
 
         public double Calc()
         {
+            return expression.Result();
+        }
+
+        public double Calc(params (string, double)[] newVariables)
+        {
+            foreach (var variable in newVariables)
+            {
+                if (!variables.ContainsKey(variable.Item1))
+                    throw new Exception($"Variable {variable.Item1} doesn't exists");
+                variables[variable.Item1] = variable.Item2;
+            }
             return expression.Result();
         }
 
@@ -32,7 +46,7 @@ namespace Lab4
                 {
                     if (token.Value == "(")
                     {
-                        operations.Push(new Operation("(", 100));
+                        operations.Push(new Operation("(", BracketPriority));
                         continue;
                     }
                     if (token.Value == ")")
@@ -44,6 +58,12 @@ namespace Lab4
                     var operation = GetBinaryOperation(token);
                     FlushToPriority(values, operations, operation.Priority);
                     operations.Push(operation);
+                }
+
+                if (token.Type == TokenType.Word)
+                {
+                    variables[token.Value] = 0d;
+                    values.Push(new VariableExpression(token.Value, variables));
                 }
             }
             FlushToPriority(values, operations, -1);
@@ -67,11 +87,6 @@ namespace Lab4
             }
         }
 
-        private bool IsBracket(Token token)
-        {
-            return token.Value == "(" || token.Value == ")";
-        }
-        
         private BinaryOperation GetBinaryOperation(Token token)
         {
             return BinaryExpression.Operations[token.Value];
