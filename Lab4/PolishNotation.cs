@@ -24,11 +24,11 @@ namespace Lab4
 
         public double Calculate(params (string, double)[] newVariables)
         {
-            foreach (var variable in newVariables)
+            foreach (var (variable, value) in newVariables)
             {
-                if (!variables.ContainsKey(variable.Item1))
-                    throw new Exception($"Variable {variable.Item1} doesn't exists");
-                variables[variable.Item1] = variable.Item2;
+                if (!variables.ContainsKey(variable))
+                    throw new Exception($"Variable {variable} doesn't exists");
+                variables[variable] = value;
             }
             return expression.Result();
         }
