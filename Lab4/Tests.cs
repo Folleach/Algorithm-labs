@@ -15,7 +15,7 @@ namespace Lab4
         public void Simple(string input, double expected)
         {
             var expression = new PolishNotation(input);
-            var actual = expression.Calc();
+            var actual = expression.Calculate();
             Assert.AreEqual(expected, actual);
         }
         
@@ -25,7 +25,7 @@ namespace Lab4
         public void WithBrackets(string input, double expected)
         {
             var expression = new PolishNotation(input);
-            var actual = expression.Calc();
+            var actual = expression.Calculate();
             Assert.AreEqual(expected, actual);
         }
         
@@ -34,7 +34,7 @@ namespace Lab4
         public void WithVariables(string input, double xValue, double expected)
         {
             var expression = new PolishNotation(input);
-            var actual = expression.Calc(("x", xValue));
+            var actual = expression.Calculate(("x", xValue));
             Assert.AreEqual(expected, actual);
         }
     }

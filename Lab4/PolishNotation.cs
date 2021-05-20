@@ -17,12 +17,12 @@ namespace Lab4
             this.expression = CreateExpression(tokenizer);
         }
 
-        public double Calc()
+        public double Calculate()
         {
             return expression.Result();
         }
 
-        public double Calc(params (string, double)[] newVariables)
+        public double Calculate(params (string, double)[] newVariables)
         {
             foreach (var variable in newVariables)
             {
