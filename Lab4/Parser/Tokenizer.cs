@@ -44,7 +44,7 @@ namespace Lab4
                 var type = GetTokenType(text[i]);
                 if (type == TokenType.Space)
                     continue;
-                if (currentType != type)
+                if (currentType != type || (currentType == TokenType.SymbolSet && builder.Length > 0))
                 {
                     AddToken(currentType, builder.ToString(), tokenIndex);
                     builder.Clear();

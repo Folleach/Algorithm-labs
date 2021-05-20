@@ -2,16 +2,13 @@
 
 namespace Lab4.Expressions
 {
-    public class BinaryOperation
+    public class BinaryOperation : Operation
     {
-        public string Definition;
-        public int Priority;
         public Func<IExpression, IExpression, double> Function;
 
         public BinaryOperation(string definition, int priority, Func<IExpression, IExpression, double> function)
+            : base(definition, priority)
         {
-            Definition = definition;
-            Priority = priority;
             Function = function;
         }
     }

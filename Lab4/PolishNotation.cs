@@ -22,7 +22,7 @@ namespace Lab4
         private IExpression CreateExpression(Tokenizer tokenizer)
         {
             var values = new Stack<IExpression>();
-            var operations = new Stack<BinaryOperation>();
+            var operations = new Stack<Operation>();
              
             foreach (var token in tokenizer)
             {
@@ -30,7 +30,18 @@ namespace Lab4
                     values.Push(new BaseExpression(double.Parse(token.Value)));
                 if (token.Type == TokenType.SymbolSet)
                 {
-                    var operation = GetOperation(token);
+                    if (token.Value == "(")
+                    {
+                        operations.Push(new Operation("(", 100));
+                        continue;
+                    }
+                    if (token.Value == ")")
+                    {
+                        FlushToPriority(values, operations, -1);
+                        operations.Pop();
+                        continue;
+                    }
+                    var operation = GetBinaryOperation(token);
                     FlushToPriority(values, operations, operation.Priority);
                     operations.Push(operation);
                 }
@@ -40,20 +51,28 @@ namespace Lab4
             return values.Pop();
         }
 
-        private void FlushToPriority(Stack<IExpression> values, Stack<BinaryOperation> operations, int priority)
+        private void FlushToPriority(Stack<IExpression> values, Stack<Operation> operations, int priority)
         {
             while (operations.Count != 0)
             {
-                if (priority > operations.Peek().Priority)
+                if (priority > operations.Peek().Priority || operations.Peek().Definition == "(")
                     return;
                 var operation = operations.Pop();
-                var right = values.Pop();
-                var left = values.Pop();
-                values.Push(new BinaryExpression(left, right, operation.Definition));
+                if (operation is BinaryOperation)
+                {
+                    var right = values.Pop();
+                    var left = values.Pop();
+                    values.Push(new BinaryExpression(left, right, operation.Definition));
+                }
             }
         }
 
-        private BinaryOperation GetOperation(Token token)
+        private bool IsBracket(Token token)
+        {
+            return token.Value == "(" || token.Value == ")";
+        }
+        
+        private BinaryOperation GetBinaryOperation(Token token)
         {
             return BinaryExpression.Operations[token.Value];
         }

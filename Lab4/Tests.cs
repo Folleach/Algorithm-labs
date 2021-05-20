@@ -11,12 +11,21 @@ namespace Lab4
         [TestCase("2 * 2 + 2", 6)]
         [TestCase("9 - 11", -2)]
         [TestCase("15 / 5", 3)]
+        [TestCase("19", 19)]
         public void Simple(string input, double expected)
         {
             var expression = new PolishNotation(input);
-            
             var actual = expression.Calc();
-            
+            Assert.AreEqual(expected, actual);
+        }
+        
+        [TestCase("(2 + 2) * 2", 8)]
+        [TestCase("2 * (3 - 4)", -2)]
+        [TestCase("3 + (4 * 10)", 43)]
+        public void WithBrackets(string input, double expected)
+        {
+            var expression = new PolishNotation(input);
+            var actual = expression.Calc();
             Assert.AreEqual(expected, actual);
         }
     }
